@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Grade;
+use App\Models\Classes;
 use App\Models\Student;
 use App\Models\Parents;
 use App\Models\User;
@@ -28,7 +28,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $classes = Grade::latest()->get();
+        $classes = Classes::latest()->get();
         $parents = Parents::with('user')->latest()->get();
 
         return view('backend.students.create', compact('classes','parents'));
@@ -62,7 +62,12 @@ class StudentController extends Controller
         $user = User::create([
             'name'              => $request->name,
             'email'             => $request->email,
-            'password'          => Hash::make($request->password)
+            'password'          => Hash::make($request->password),
+            'gender'            => $request->gender,
+            'phone'             => $request->phone,
+            'dateofbirth'       => $request->dateofbirth,
+            'current_address'   => $request->current_address,
+            'permanent_address' => $request->permanent_address
         ]);
 
         if ($request->hasFile('profile_picture')) {
@@ -76,14 +81,9 @@ class StudentController extends Controller
         ]);
 
         $user->student()->create([
-            'parent_id'         => $request->parent_id, //?? null,
+            'parent_id'         => $request->parent_id,
             'class_id'          => $request->class_id,
-            'roll_number'       => $request->roll_number,
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'roll_number'       => $request->roll_number
         ]);
 
         $user->assignRole('Student');
@@ -96,7 +96,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        $class = Grade::with('subjects')->where('id', $student->class_id)->first();
+        $class = Classes::where('id', $student->class_id)->first();
 
         return view('backend.students.show', compact('class','student'));
     }
@@ -106,7 +106,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $classes = Grade::latest()->get();
+        $classes = Classes::latest()->get();
         $parents = Parents::with('user')->latest()->get();
 
         return view('backend.students.edit', compact('classes','parents','student'));

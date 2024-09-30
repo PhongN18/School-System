@@ -35,52 +35,55 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate input
         $request->validate([
             'name'              => 'required|string|max:255',
             'email'             => 'required|string|email|max:255|unique:users',
             'password'          => 'required|string|min:8',
             'gender'            => 'required|string',
-            'phone'             => 'required|string|max:255',
-            'dateofbirth'       => 'required|date',
-            'current_address'   => 'required|string|max:255',
-            'permanent_address' => 'required|string|max:255',
-            'subject_id'        => 'required|exists:subjects,id'
+            'phone'             => 'nullable|string|max:255',
+            'dateofbirth'       => 'nullable|date',
+            'current_address'   => 'nullable|string|max:255',
+            'permanent_address' => 'nullable|string|max:255',
+            'subject_id'        => 'required|exists:subjects,id',
+            'profile_picture'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        // Create the user
         $user = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
-            'password'  => Hash::make($request->password)
+            'password'  => Hash::make($request->password),
+            'gender' => $request->gender,
+            'phone' => $request->phone,
+            'dateofbirth' => $request->dateofbirth,
+            'current_address' => $request->current_address,
+            'permanent_address' => $request->permanent_address,
+            'profile_picture' => $request->profile_picture
         ]);
+
+        // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
             $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
             $profile = 'avatar.png';
         }
+
+        // Update profile picture field in user model
         $user->update([
             'profile_picture' => $profile
         ]);
 
+        // Create associated teacher record
         $user->teacher()->create([
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address,
             'subject_id'        => $request->subject_id
         ]);
 
+        // Assign role
         $user->assignRole('Teacher');
 
-        return redirect()->route('teacher.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('teacher.index')->with('success', 'Teacher created successfully.');
     }
 
     /**
@@ -98,18 +101,22 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
+        // Validate input
         $request->validate([
             'name'              => 'required|string|max:255',
             'email'             => 'required|string|email|max:255|unique:users,email,'.$teacher->user_id,
             'gender'            => 'required|string',
-            'phone'             => 'required|string|max:255',
-            'dateofbirth'       => 'required|date',
-            'current_address'   => 'required|string|max:255',
-            'permanent_address' => 'required|string|max:255'
+            'phone'             => 'nullable|string|max:255',
+            'dateofbirth'       => 'nullable|date',
+            'current_address'   => 'nullable|string|max:255',
+            'permanent_address' => 'nullable|string|max:255',
+            'profile_picture'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
+        // Find the user related to the teacher
         $user = User::findOrFail($teacher->user_id);
 
+        // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
             $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
@@ -117,21 +124,24 @@ class TeacherController extends Controller
             $profile = $user->profile_picture;
         }
 
+        // Update user information
         $user->update([
             'name'              => $request->name,
             'email'             => $request->email,
             'profile_picture'   => $profile
         ]);
 
+        // Update associated teacher record
         $user->teacher()->update([
             'gender'            => $request->gender,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'permanent_address' => $request->permanent_address,
+            'subject_id'        => $request->subject_id
         ]);
 
-        return redirect()->route('teacher.index');
+        return redirect()->route('teacher.index')->with('success', 'Teacher updated successfully.');
     }
 
     /**
@@ -141,20 +151,24 @@ class TeacherController extends Controller
     {
         $user = User::findOrFail($teacher->user_id);
 
+        // Delete associated teacher record
         $user->teacher()->delete();
 
+        // Remove teacher role
         $user->removeRole('Teacher');
 
-        if ($user->delete()) {
-            if($user->profile_picture != 'avatar.png') {
-                $image_path = public_path() . '/images/profile/' . $user->profile_picture;
-                if (is_file($image_path) && file_exists($image_path)) {
-                    unlink($image_path);
-                }
+        // Handle profile picture deletion (if not the default one)
+        if ($user->profile_picture != 'avatar.png') {
+            $image_path = public_path() . '/images/profile/' . $user->profile_picture;
+            if (is_file($image_path) && file_exists($image_path)) {
+                unlink($image_path);
             }
         }
 
-        return back();
+        // Finally, delete the user
+        $user->delete();
+
+        return redirect()->route('teacher.index')->with('success', 'Teacher deleted successfully.');
     }
 
 }

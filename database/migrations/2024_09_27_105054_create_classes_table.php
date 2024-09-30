@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('class_name');
             $table->string('class_description');
             $table->timestamps();
+
+            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

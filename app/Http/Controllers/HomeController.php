@@ -12,35 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-
-
-        if ($user->hasRole('Admin')) {
-
-
-            return view('home', );
-
-        } elseif ($user->hasRole('Teacher')) {
-
-
-
-            return view('home');
-
-        } elseif ($user->hasRole('Parent')) {
-
-
-
-            return view('home');
-
-        } elseif ($user->hasRole('Student')) {
-
-
-
-            return view('home');
-
-        } else {
-            return 'NO ROLE ASSIGNED YET!';
-        }
-
+        return view('home');
     }
 
     public function changePassword(Request $request)

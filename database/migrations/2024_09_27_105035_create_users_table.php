@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profile_picture')->default('avatar.png');
+            $table->string('profile_picture')->nullable();
             $table->enum('gender', ['male', 'female', 'other']);
-            $table->string('phone');
-            $table->date('dateofbirth');
-            $table->string('current_address');
-            $table->string('permanent_address');
+            $table->string('phone')->default('012345678');
+            $table->date('dateofbirth')->nullable();
+            $table->string('current_address')->nullable();
+            $table->string('permanent_address')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

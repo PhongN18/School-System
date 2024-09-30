@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 use App\Models\Subject;
-use App\Models\Grade;
+use App\Models\Classes;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 
-class GradeController extends Controller
+class ClassController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $classes = Grade::withCount('students')->latest()->paginate(10);
+        $classes = Classes::withCount('students')->latest()->paginate(10);
 
         return view('backend.classes.index', compact('classes'));
     }
@@ -34,13 +34,13 @@ class GradeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'class_name'        => 'required|string|max:255|unique:grades',
+            'class_name'        => 'required|string|max:255|unique:classes',
             'class_numeric'     => 'required|numeric',
             'teacher_id'        => 'required|numeric',
             'class_description' => 'required|string|max:255'
         ]);
 
-        Grade::create([
+        Classes::create([
             'class_name'        => $request->class_name,
             'class_numeric'     => $request->class_numeric,
             'teacher_id'        => $request->teacher_id,
@@ -53,10 +53,12 @@ class GradeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show($id)
+{
+    $class = Classes::with(['teacher', 'students'])->findOrFail($id);
+
+    return view('backend.classes.show', compact('class'));
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -64,7 +66,7 @@ class GradeController extends Controller
     public function edit(string $id)
     {
         $teachers = Teacher::latest()->get();
-        $class = Grade::findOrFail($id);
+        $class = Classes::findOrFail($id);
 
         return view('backend.classes.edit', compact('class','teachers'));
     }
@@ -75,13 +77,13 @@ class GradeController extends Controller
     public function update(Request $request,  $id)
     {
         $request->validate([
-            'class_name'        => 'required|string|max:255|unique:grades,class_name,'.$id,
+            'class_name'        => 'required|string|max:255|unique:classes,class_name,'.$id,
             'class_numeric'     => 'required|numeric',
             'teacher_id'        => 'required|numeric',
             'class_description' => 'required|string|max:255'
         ]);
 
-        $class = Grade::findOrFail($id);
+        $class = Classes::findOrFail($id);
 
         $class->update([
             'class_name'        => $request->class_name,
@@ -98,26 +100,11 @@ class GradeController extends Controller
      */
     public function destroy(string $id)
     {
-        $class = Grade::findOrFail($id);
+        $class = Classes::findOrFail($id);
 
         $class->subjects()->detach();
         $class->delete();
 
         return back();
-    }
-    public function assignSubject($classid)
-    {
-        $subjects = Subject::latest()->get();
-        $assigned = Grade::with(['subjects', 'students'])->findOrFail($classid);
-
-        return view('backend.classes.assign-subject', compact('classid', 'subjects', 'assigned'));
-    }
-    public function storeAssignedSubject(Request $request, $id)
-    {
-        $class = Grade::findOrFail($id);
-
-        $class->subjects()->sync($request->selectedsubjects);
-
-        return redirect()->route('classes.index');
     }
 }
