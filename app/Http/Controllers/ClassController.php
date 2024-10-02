@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Student;
+use App\Models\Parents;
 use App\Models\Classes;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -54,11 +56,37 @@ class ClassController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-{
-    $class = Classes::with(['teacher', 'students'])->findOrFail($id);
+    {
+        $class = Classes::with(['teacher', 'students.user'])->findOrFail($id);
+        $parent = Parents::where('user_id', Auth::id())->first();
+        $childrenInfo = null;
+            if ($parent) {
+                $children = Student::where('parent_id', $parent->id)
+                                    ->with(['class.teacher.user'])
+                                    ->get();
 
-    return view('backend.classes.show', compact('class'));
-}
+                foreach ($children as $student) {
+                    $student->user->classname = $student->class->class_name;
+                    $student->user->teacher_name = $student->class->teacher->user->name;
+                    $student->user->student_id = $student->id;
+                }
+
+                $childrenInfo = $children->pluck('user');
+            }
+
+        $sortedStudents = $class->students->sortBy(function ($student) {
+            return $student->user->name;
+        });
+
+        return view('backend.classes.show', compact('class', 'sortedStudents', 'childrenInfo'));
+    }
+
+    public function teacherClasses(Teacher $teacher)
+    {
+        $classes = Classes::where('teacher_id', $teacher->id)->withCount('students')->get();
+
+        return view('backend.classes.teacher-classes', compact('classes', 'teacher'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -80,7 +108,8 @@ class ClassController extends Controller
             'class_name'        => 'required|string|max:255|unique:classes,class_name,'.$id,
             'class_numeric'     => 'required|numeric',
             'teacher_id'        => 'required|numeric',
-            'class_description' => 'required|string|max:255'
+            'class_description' => 'required|string|max:255',
+            'class_room'        => 'required|string|max:255'
         ]);
 
         $class = Classes::findOrFail($id);
@@ -89,7 +118,8 @@ class ClassController extends Controller
             'class_name'        => $request->class_name,
             'class_numeric'     => $request->class_numeric,
             'teacher_id'        => $request->teacher_id,
-            'class_description' => $request->class_description
+            'class_description' => $request->class_description,
+            'class_room'        => $request->class_room
         ]);
 
         return redirect()->route('classes.index');

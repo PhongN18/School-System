@@ -24,8 +24,23 @@ Route::group(['middleware' => ['auth', 'role:Admin']], function () {
     Route::resource('parents', ParentController::class);
     Route::resource('subject', SubjectController::class);
 });
+
+Route::middleware(['auth', 'role:Student|Teacher|Parent|Admin'])->group(function () {
+    Route::get('classes/{class}', [ClassController::class, 'show'])->name('classes.show');
+});
+
+Route::middleware(['auth', 'role:Teacher|Admin'])->group(function () {
+    Route::get('teacher/{teacher}/classes', [ClassController::class, 'teacherClasses'])->name('teacher.classes');
+});
+
+Route::middleware(['auth', 'role:Parent|Admin'])->group(function () {
+    Route::get('student/{student}', [StudentController::class, 'show'])->name('student.show');
+});
+
 Route::get('classes/{class}/timetable', [TimetableController::class, 'show'])->name('timetable.show');
 Route::get('/get-teachers/{subject}', [TimetableController::class, 'getTeachers']);
 Route::put('classes/{class}/timetable', [TimetableController::class, 'update'])->name('timetable.update');
 Route::delete('classes/{class}/timetable', [TimetableController::class, 'destroy'])->name('timetable.destroy');
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+
+Route::post('classes/{class}/timetable/check', [TimetableController::class, 'checkAvailability'])->name('timetable.check');

@@ -16,21 +16,26 @@ class Teacher extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function subjects()
+    public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public function classes()
+    public function timetable()
     {
-        return $this->hasMany(Classes::class, 'teacher_id');
+        return $this->hasMany(Timetable::class, 'teacher_id');
     }
 
-    public function students()
+    public function student()
     {
         return $this->classes()->withCount('students');
+    }
+
+    public function class()
+    {
+        return $this->hasMany(Classes::class, 'teacher_id');
     }
 }

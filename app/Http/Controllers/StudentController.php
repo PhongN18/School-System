@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Classes;
 use App\Models\Student;
@@ -97,8 +98,24 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         $class = Classes::where('id', $student->class_id)->first();
+        $parent = Parents::where('user_id', Auth::id())->first();
+        $periods = range(1, 8);
+        $periodsTime = ['8:00 - 8:45', '8:55 - 9:40', '9:50 - 10:35', '10:45 - 11:30', '14:00 - 14:45' , '14:55 - 15:40', '15:50 - 16:35', '16:45 - 17:30'];
+        $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $childrenInfo = null;
+        if ($parent) {
+            $children = Student::where('parent_id', $parent->id)
+            ->with(['class.teacher.user'])
+            ->get();
 
-        return view('backend.students.show', compact('class','student'));
+            foreach ($children as $child) {
+                $child->user->classname = $child->class->class_name;
+                $child->user->teacher_name = $child->class->teacher->user->name;
+                $child->user->student_id = $child->id;
+            }
+            $childrenInfo = $children->pluck('user');
+        }
+        return view('backend.students.show', compact('class','student', 'childrenInfo', 'periods', 'periodsTime', 'weekDays'));
     }
 
     /**

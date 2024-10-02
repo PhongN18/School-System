@@ -29,6 +29,6 @@ class Classes extends Model
 
     public function timetable()
     {
-        return $this->hasMany(Timetable::class);
+        return $this->hasMany(Timetable::class, 'class_id');
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('class_numeric');
             $table->string('class_name');
             $table->string('class_description');
+            $table->string('class_room');
             $table->timestamps();
 
             $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');

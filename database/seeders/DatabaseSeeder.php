@@ -107,7 +107,8 @@ class DatabaseSeeder extends Seeder
             'teacher_id' => 1,
             'class_numeric' => 1,
             'class_name' => 'One',
-            'class_description' => 'class one'
+            'class_description' => 'class one',
+            'class_room' => '101'
         ]);
 
         // Thêm thông tin học sinh

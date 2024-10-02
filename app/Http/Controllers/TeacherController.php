@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\Classes;
 use App\Models\User;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -21,6 +23,35 @@ class TeacherController extends Controller
         return view('backend.teachers.index', compact('teachers'));
     }
 
+    public function show(Teacher $teacher)
+    {
+        $teachingSchedule = Timetable::where('teacher_id', $teacher->id)
+                    ->with('class', 'subject')
+                    ->orderBy('day')
+                    ->orderBy('period')
+                    ->get();
+        $days = [
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday'
+        ];
+
+        $periodTimes = [
+            1 => '8:00 - 8:45',
+            2 => '8:55 - 9:40',
+            3 => '9:50 - 10:35',
+            4 => '10:45 - 11:30',
+            5 => '14:00 - 14:45',
+            6 => '14:55 - 15:40',
+            7 => '15:50 - 16:35',
+            8 => '16:45 - 17:30',
+        ];
+        $classes = Classes::where('teacher_id', $teacher->id)->withCount('students')->get();
+        return view('backend.teachers.show', compact('teacher', 'teachingSchedule', 'days', 'periodTimes', 'classes'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -35,7 +66,6 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate input
         $request->validate([
             'name'              => 'required|string|max:255',
             'email'             => 'required|string|email|max:255|unique:users',
@@ -49,7 +79,6 @@ class TeacherController extends Controller
             'profile_picture'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Create the user
         $user = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
@@ -62,15 +91,13 @@ class TeacherController extends Controller
             'profile_picture' => $request->profile_picture
         ]);
 
-        // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
             $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
-            $profile = 'avatar.png';
+            $profile = 'avatar.jpg';
         }
 
-        // Update profile picture field in user model
         $user->update([
             'profile_picture' => $profile
         ]);
