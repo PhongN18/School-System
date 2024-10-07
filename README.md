@@ -39,10 +39,12 @@ Follow these instructions to get a copy of the project up and running on your lo
 
     ```bash
     cp .env.example .env
+    ```
 
     or copy manually
 
     Open the .env file and update the following database and application settings as needed:
+   ```
     APP_NAME=School-System
     APP_URL=http://localhost
 
@@ -52,25 +54,25 @@ Follow these instructions to get a copy of the project up and running on your lo
     DB_DATABASE=your_database_name
     DB_USERNAME=your_database_user
     DB_PASSWORD=your_database_password
-
     ```
 
-4. **Generate an application key:**
+5. **Generate an application key:**
 
     ```bash
     php artisan key:generate
 
     ```
 
-5. **Set up the database:**
+6. **Set up the database:**
 
     ```bash
     php artisan migrate
     php artisan db:seed
-
     ```
+    ***Note***: The database seeding process may take approximately 4 minutes to complete.
+   Please be patient and avoid interrupting the process to ensure all data is properly seeded.
 
-6. **Serve the application locally:**
+8. **Serve the application locally:**
 
     ```bash
     php artisan serve
