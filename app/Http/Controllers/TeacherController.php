@@ -160,12 +160,8 @@ class TeacherController extends Controller
 
         // Update associated teacher record
         $user->teacher()->update([
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address,
-            'subject_id'        => $request->subject_id
+
+
         ]);
 
         return redirect()->route('teacher.index')->with('success', 'Teacher updated successfully.');

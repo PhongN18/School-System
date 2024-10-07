@@ -46,7 +46,11 @@ class ParentController extends Controller
         $user = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
-            'password'  => Hash::make($request->password)
+            'password'  => Hash::make($request->password),
+            'gender'            => $request->gender,
+            'phone'             => $request->phone,
+            'current_address'   => $request->current_address,
+            'permanent_address' => $request->permanent_address
         ]);
 
         if ($request->hasFile('profile_picture')) {
@@ -60,10 +64,7 @@ class ParentController extends Controller
         ]);
 
         $user->parent()->create([
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+
         ]);
 
         $user->assignRole('Parent');

@@ -73,7 +73,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="phone" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->phone }}">
+                        <input name="phone" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->user->phone }}">
                         @error('phone')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
@@ -88,15 +88,15 @@
                     <div class="md:w-2/3">
                         <div class="flex flex-row items-center">
                             <label class="block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="male" {{ ($student->gender == 'male') ? 'checked' : '' }}>
+                                <input name="gender" class="mr-2 leading-tight" type="radio" value="male" {{ ($student->user->gender == 'male') ? 'checked' : '' }}>
                                 <span class="text-sm">Male</span>
                             </label>
                             <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="female" {{ ($student->gender == 'female') ? 'checked' : '' }}>
+                                <input name="gender" class="mr-2 leading-tight" type="radio" value="female" {{ ($student->user->gender == 'female') ? 'checked' : '' }}>
                                 <span class="text-sm">Female</span>
                             </label>
                             <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="other" {{ ($student->gender == 'other') ? 'checked' : '' }}>
+                                <input name="gender" class="mr-2 leading-tight" type="radio" value="other" {{ ($student->user->gender == 'other') ? 'checked' : '' }}>
                                 <span class="text-sm">Other</span>
                             </label>
                         </div>
@@ -112,7 +112,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="dateofbirth" id="datepicker-se" autocomplete="off" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->dateofbirth }}">
+                        <input name="dateofbirth" id="datepicker-se" autocomplete="off" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->user->dateofbirth }}">
                         @error('dateofbirth')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
@@ -125,7 +125,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="current_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->current_address }}">
+                        <input name="current_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->user->current_address }}">
                         @error('current_address')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
@@ -138,7 +138,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="permanent_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->permanent_address }}">
+                        <input name="permanent_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->user->permanent_address }}">
                         @error('permanent_address')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror

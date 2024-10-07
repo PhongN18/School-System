@@ -5,7 +5,7 @@
         <div class="w-full flex px-6 py-16">
             <div class="teacher-col flex-grow px-2">
                 <div class="text-center mb-6">
-                    <img src="{{ asset('assets/images/users/' . $teacher->user->profile_picture) }}" alt="Profile Picture"
+                    <img src="{{ asset('images/profile/' . $teacher->user->profile_picture) }}" alt="Profile Picture"
                         class="w-40 h-40 rounded-full mx-auto">
                 </div>
                 <table class="min-w-full table-auto border-collapse">
