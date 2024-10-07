@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
-use App\Models\Grade;
+use App\Models\Classes;
 use App\Models\Student;
 use App\Models\Parents;
 use App\Models\User;
@@ -18,7 +19,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class')->latest()->paginate(10);
+        $students = Student::with('class')
+                            ->join('users', 'students.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('students.*')
+                            ->paginate(10);
 
         return view('backend.students.index', compact('students'));
     }
@@ -28,8 +33,12 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $classes = Grade::latest()->get();
-        $parents = Parents::with('user')->latest()->get();
+        $classes = Classes::orderBy('class_name')->get();
+        $parents = Parents::with('user')
+                            ->join('users', 'parents.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('parents.*')
+                            ->get();
 
         return view('backend.students.create', compact('classes','parents'));
     }
@@ -62,7 +71,12 @@ class StudentController extends Controller
         $user = User::create([
             'name'              => $request->name,
             'email'             => $request->email,
-            'password'          => Hash::make($request->password)
+            'password'          => Hash::make($request->password),
+            'gender'            => $request->gender,
+            'phone'             => $request->phone,
+            'dateofbirth'       => $request->dateofbirth,
+            'current_address'   => $request->current_address,
+            'permanent_address' => $request->permanent_address
         ]);
 
         if ($request->hasFile('profile_picture')) {
@@ -76,14 +90,9 @@ class StudentController extends Controller
         ]);
 
         $user->student()->create([
-            'parent_id'         => $request->parent_id, //?? null,
+            'parent_id'         => $request->parent_id,
             'class_id'          => $request->class_id,
-            'roll_number'       => $request->roll_number,
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'roll_number'       => $request->roll_number
         ]);
 
         $user->assignRole('Student');
@@ -96,9 +105,25 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        $class = Grade::with('subjects')->where('id', $student->class_id)->first();
+        $class = Classes::where('id', $student->class_id)->first();
+        $parent = Parents::where('user_id', Auth::id())->first();
+        $periods = range(1, 8);
+        $periodsTime = ['8:00 - 8:45', '8:55 - 9:40', '9:50 - 10:35', '10:45 - 11:30', '14:00 - 14:45' , '14:55 - 15:40', '15:50 - 16:35', '16:45 - 17:30'];
+        $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $childrenInfo = null;
+        if ($parent) {
+            $children = Student::where('parent_id', $parent->id)
+            ->with(['class.teacher.user'])
+            ->get();
 
-        return view('backend.students.show', compact('class','student'));
+            foreach ($children as $child) {
+                $child->user->classname = $child->class->class_name;
+                $child->user->teacher_name = $child->class->teacher->user->name;
+                $child->user->student_id = $child->id;
+            }
+            $childrenInfo = $children->pluck('user');
+        }
+        return view('backend.students.show', compact('class','student', 'childrenInfo', 'periods', 'periodsTime', 'weekDays'));
     }
 
     /**
@@ -106,8 +131,12 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $classes = Grade::latest()->get();
-        $parents = Parents::with('user')->latest()->get();
+        $classes = Classes::orderBy('class_name')->get();
+        $parents = Parents::with('user')
+                            ->join('users', 'parents.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('parents.*')
+                            ->get();
 
         return view('backend.students.edit', compact('classes','parents','student'));
     }

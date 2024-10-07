@@ -13,10 +13,6 @@ class Parents extends Model
 
     protected $fillable = [
         'user_id',
-        'gender',
-        'phone',
-        'current_address',
-        'permanent_address',
     ];
 
     public function user()

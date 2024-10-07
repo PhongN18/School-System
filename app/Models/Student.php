@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Grade;
+use App\Models\Classes;
 use App\Models\Parents;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,17 +15,13 @@ class Student extends Model
         'parent_id',
         'class_id',
         'roll_number',
-        'gender',
-        'phone',
-        'dateofbirth',
-        'current_address',
-        'permanent_address',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function parent()
     {
         return $this->belongsTo(Parents::class);
@@ -33,7 +29,6 @@ class Student extends Model
 
     public function class()
     {
-        return $this->belongsTo(Grade::class, 'class_id');
+        return $this->belongsTo(Classes::class, 'class_id');
     }
-
 }

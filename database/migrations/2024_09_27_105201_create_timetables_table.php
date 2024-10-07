@@ -12,8 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('timetables', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('class_id');
+            $table->tinyInteger('day')->unsigned()->comment('1=Monday, 5=Friday');
+            $table->tinyInteger('period')->unsigned()->comment('1=First Period, 8=Eighth Period');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
+
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+
+            $table->unique(['teacher_id', 'day', 'period'], 'unique_teacher_day_period');
         });
     }
 

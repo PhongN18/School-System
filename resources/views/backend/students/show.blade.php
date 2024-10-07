@@ -1,186 +1,176 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="roles">
-
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-gray-700 uppercase font-bold">Student Details</h2>
+    <div class="w-full block mt-8 bg-white">
+        <div class="w-full flex px-6 py-16">
+            <div class="student-col flex-grow px-2">
+                <div class="text-center mb-6">
+                    <img src="{{ asset('assets/images/users/' . $student->user->profile_picture) }}" alt="Profile Picture"
+                        class="w-40 h-40 rounded-full mx-auto">
+                </div>
+                <table class="min-w-full table-auto border-collapse">
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Name:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->name }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Email:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->email }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Class:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->class->class_name }} <a
+                                    class="ml-6 p-2 bg-gray-400 hover:text-white hover:bg-gray-600"
+                                    href="{{ route('classes.show', $student->class_id) }}">View class</a></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Class room:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->class->class_room }}</div>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class="flex flex-wrap items-center">
-                <a href="{{ route('student.index') }}" class="bg-gray-700 text-white text-sm uppercase py-2 px-4 flex items-center rounded">
-                    <svg class="w-3 h-3 fill-current" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="long-arrow-alt-left" class="svg-inline--fa fa-long-arrow-alt-left fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"></path></svg>
-                    <span class="ml-2 text-xs font-semibold">Back</span>
-                </a>
+
+            <div class="student-col flex-grow px-2">
+                <table class="min-w-full table-auto border-collapse">
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Phone:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->phone }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Gender:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3 capitalize">{{ $student->user->gender }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Date of Birth:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->dateofbirth->format('d/m/Y') }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Current Address:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->current_address }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Permanent Address:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->permanent_address }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Student's Parent:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->name }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Parent's Email:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->email }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Parent's Phone:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->phone }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Parent's Address:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->current_address }}</div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
 
+        <div class="timetable-grid px-5 mt-6 pb-8">
+            <h2 class="font-bold text-center text-xl my-3 pt-3">Timetable</h2>
+            <table class="min-w-full table-auto border-collapse">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 text-gray-700">Period</th>
+                        @foreach ($weekDays as $day)
+                            <th class="px-4 py-2 text-gray-700">{{ $day }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($periods as $period)
+                        @if ($period == 5)
+                            <tr>
+                                <td colspan="{{ count($weekDays) + 1 }}"
+                                    class="text-center text-white font-bold bg-gray-700 px-4 py-2">
+                                    Lunch Break
+                                </td>
+                            </tr>
+                        @endif
 
-
-
-        <div class="mt-8 bg-white rounded">
-           <div class="flex flex-wrap sm:flex-no-wrap justify-between">
-
-            <div class="w-full sm:w-1/2 mr-2 mb-6">
-
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3"></div>
-                    <div class="md:w-2/3">
-                        <img class="w-20 h-20 sm:w-32 sm:h-32 rounded" src="{{ asset('images/profile/' .$student->user->profile_picture) }}" alt="avatar">
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Name :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="block text-gray-600 font-bold">{{ $student->user->name }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Email :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->user->email }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Roll :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->roll_number }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Phone :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->phone }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Gender :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->gender }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Date of Birth :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->dateofbirth }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Current Address :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->current_address }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Permanent Address :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->permanent_address }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Class :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->class->class_name }}</span>
-                    </div>
-                </div>
-
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Student's Parent :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->user->name }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Parent's Email :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->user->email }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Parent's Phone :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->phone }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Parent's Address :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->current_address }}</span>
-                    </div>
-                </div>
-
-            </div>
-
-
-
-            <div class="w-full sm:w-1/2 mr-2 mb-6">
-                    <div class="flex items-center bg-gray-600">
-                        <div class="w-1/3 text-left text-white py-2 px-4 font-semibold">Code</div>
-                        <div class="w-1/3 text-left text-white py-2 px-4 font-semibold">Subject</div>
-                        <div class="w-1/3 text-right text-white py-2 px-4 font-semibold">Teacher</div>
-                    </div>
-                    @foreach ($class->subjects as $subject)
-                        <div class="flex items-center justify-between border border-gray-200 mb-px">
-                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->subject_code }}</div>
-                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->name }}</div>
-                            <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-medium">{{ $subject->teacher->user->name }}</div>
-                        </div>
+                        <tr>
+                            <td class="border px-4 py-2 text-center">
+                                {{ $period }}
+                                <p class="text-gray-600 italic text-xs">{{ $periodsTime[$period - 1] }}</p>
+                            </td>
+                            @foreach ($weekDays as $dayIndex => $day)
+                                @php
+                                    $dbDay = $dayIndex + 1;
+                                    $entry = $class->timetable->firstWhere(function ($t) use ($dbDay, $period) {
+                                        return $t->day == $dbDay && $t->period == $period;
+                                    });
+                                @endphp
+                                <td class="border px-4 py-2">
+                                    @if ($entry)
+                                        <strong>{{ $entry->subject->name }}</strong><br>
+                                        <small>Teacher: {{ $entry->teacher->user->name }}</small>
+                                    @else
+                                        <span class="text-gray-400">Unassigned</span>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
                     @endforeach
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
-
     </div>
 @endsection

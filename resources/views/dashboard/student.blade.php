@@ -1,172 +1,174 @@
+@extends('layouts.app')
 
-
-<div class="w-full block mt-8 bg-white">
-    <div class="flex flex-wrap sm:flex-no-wrap justify-between">
-        <div class="w-full sm:w-1/2 mr-2 mb-6">
-
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Name :
-                    </label>
+@section('content')
+    <div class="w-full block mt-8 bg-white">
+        <div class="w-full flex px-6 py-16">
+            <div class="student-col flex-grow px-2">
+                <div class="text-center mb-6">
+                    <img src="{{ asset('assets/images/users/' . $student->user->profile_picture) }}" alt="Profile Picture"
+                        class="w-40 h-40 rounded-full mx-auto">
                 </div>
-                <div class="md:w-2/3">
-                    <span class="block text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Email :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Class :
-                    </label>
-                </div>
-                <div class="md:w-2/3 block text-gray-600 font-bold">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Roll Number :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Phone :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Gender :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Date of Birth :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Current Address :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Permanent Address :
-                    </label>
-                </div>
-                <div class="md:w-2/3">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
+                <table class="min-w-full table-auto border-collapse">
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Name:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->name }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Email:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->email }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Class:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->class->class_name }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Class room:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->class->class_room }}</div>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Student's Parent :
-                    </label>
-                </div>
-                <div class="md:w-2/3 block text-gray-600 font-bold">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
+            <div class="student-col flex-grow px-2">
+                <table class="min-w-full table-auto border-collapse">
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Phone:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->phone }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Gender:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3 capitalize">{{ $student->user->gender }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Date of Birth:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->dateofbirth->format('d/m/Y') }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Current Address:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->current_address }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Permanent Address:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->user->permanent_address }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Student's Parent:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->name }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Parent's Email:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->email }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Parent's Phone:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->phone }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-500 font-bold">
+                            <div class="mb-3">Parent's Address:</div>
+                        </td>
+                        <td class="text-gray-600 font-bold">
+                            <div class="mb-3">{{ $student->parent->user->current_address }}</div>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Parent's Email :
-                    </label>
-                </div>
-                <div class="md:w-2/3 block text-gray-600 font-bold">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Parent's Phone :
-                    </label>
-                </div>
-                <div class="md:w-2/3 block text-gray-600 font-bold">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-3">
-                <div class="md:w-1/3">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Parent's Address :
-                    </label>
-                </div>
-                <div class="md:w-2/3 block text-gray-600 font-bold">
-                    <span class="text-gray-600 font-bold"></span>
-                </div>
-            </div>
-
-
         </div>
 
+        <div class="timetable-grid px-5 mt-6 pb-8">
+            <h2 class="font-bold text-center text-xl my-3 pt-3">Timetable</h2>
+            <table class="min-w-full table-auto border-collapse">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 text-gray-700 w-2/12">Period</th>
+                        @foreach ($weekDays as $day)
+                            <th class="px-4 py-2 text-gray-700 w-2/12">{{ $day }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($periods as $period)
+                        @if ($period == 5)
+                            <tr>
+                                <td colspan="{{ count($weekDays) + 1 }}"
+                                    class="text-center text-white font-bold bg-gray-700 px-4 py-2">
+                                    Lunch Break
+                                </td>
+                            </tr>
+                        @endif
 
-
-        <div class="w-full sm:w-1/2 mr-2 mb-6">
-            <div class="flex items-center bg-gray-600">
-                <div class="w-1/3 text-left text-white py-2 px-4 font-semibold">Code</div>
-                <div class="w-1/3 text-left text-white py-2 px-4 font-semibold">Subject</div>
-                <div class="w-1/3 text-right text-white py-2 px-4 font-semibold">Teacher</div>
-            </div>
-
-
-
+                        <tr>
+                            <td class="border px-4 py-2 text-center w-2/12">
+                                {{ $period }}
+                                <p class="text-gray-600 italic text-xs">{{ $periodsTime[$period - 1] }}</p>
+                            </td>
+                            @foreach ($weekDays as $dayIndex => $day)
+                                @php
+                                    $dbDay = $dayIndex + 1;
+                                    $entry = $class->timetable->firstWhere(function ($t) use ($dbDay, $period) {
+                                        return $t->day == $dbDay && $t->period == $period;
+                                    });
+                                @endphp
+                                <td class="border px-4 py-2 w-2/12">
+                                    @if ($entry)
+                                        <strong>{{ $entry->subject->name }}</strong><br>
+                                        <small>Teacher: {{ $entry->teacher->user->name }}</small>
+                                    @else
+                                        <span class="text-gray-400">Unassigned</span>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-
-
-
     </div>
-
-    <div class="w-full px-0 md:px-6 py-4">
-        <div>
-            <h2 class="text-gray-700 uppercase font-bold">My Attendance Record</h2>
-        </div>
-        <div class="flex items-center bg-gray-600">
-            <div class="w-1/4 text-left text-white py-2 px-4 font-semibold">Date</div>
-            <div class="w-1/4 text-left text-white py-2 px-4 font-semibold">Class</div>
-            <div class="w-1/4 text-left text-white py-2 px-4 font-semibold">Teacher</div>
-            <div class="w-1/4 text-right text-white py-2 px-4 font-semibold">Attendance</div>
-        </div>
-
-    </div>
-</div>
-
+@endsection
