@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+
+            $table->unique(['teacher_id', 'day', 'period'], 'unique_teacher_day_period');
         });
     }
 

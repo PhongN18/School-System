@@ -27,23 +27,27 @@
                 class="flex flex-wrap items-center uppercase text-sm font-semibold bg-gray-600 text-white rounded-tl rounded-tr">
                 <div class="w-1/12 px-4 py-3">#</div>
                 <div class="w-3/12 px-4 py-3">Name</div>
+                <div class="w-1/12 px-4 py-3">SID</div>
                 <div class="w-2/12 px-4 py-3">Gender</div>
-                <div class="w-3/12 px-4 py-3">DOB</div>
+                <div class="w-2/12 px-4 py-3">DOB</div>
                 <div class="w-3/12 px-4 py-3">Email</div>
             </div>
 
             @foreach ($sortedStudents as $student)
                 <div class="flex flex-wrap items-center text-gray-700 border-t-2 border-l-4 border-r-4 border-gray-300">
                     <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600">
-                        {{ $student->id }}
+                        {{ $loop->iteration }}
                     </div>
                     <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600">
                         {{ $student->user->name }}
                     </div>
-                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600">
+                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600">
+                        {{ $student->id }}
+                    </div>
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 capitalize">
                         {{ ucfirst($student->user->gender) }}
                     </div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600">
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600">
                         {{ $student->user->dateofbirth->format('Y-m-d') }}
                     </div>
                     <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600">

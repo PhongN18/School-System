@@ -19,7 +19,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class')->latest()->paginate(10);
+        $students = Student::with('class')
+                            ->join('users', 'students.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('students.*')
+                            ->paginate(10);
 
         return view('backend.students.index', compact('students'));
     }
@@ -29,8 +33,12 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $classes = Classes::latest()->get();
-        $parents = Parents::with('user')->latest()->get();
+        $classes = Classes::orderBy('class_name')->get();
+        $parents = Parents::with('user')
+                            ->join('users', 'parents.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('parents.*')
+                            ->get();
 
         return view('backend.students.create', compact('classes','parents'));
     }
@@ -123,8 +131,12 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $classes = Classes::latest()->get();
-        $parents = Parents::with('user')->latest()->get();
+        $classes = Classes::orderBy('class_name')->get();
+        $parents = Parents::with('user')
+                            ->join('users', 'parents.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('parents.*')
+                            ->get();
 
         return view('backend.students.edit', compact('classes','parents','student'));
     }

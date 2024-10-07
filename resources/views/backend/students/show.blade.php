@@ -61,7 +61,7 @@
                             <div class="mb-3">Gender:</div>
                         </td>
                         <td class="text-gray-600 font-bold">
-                            <div class="mb-3">{{ $student->user->gender }}</div>
+                            <div class="mb-3 capitalize">{{ $student->user->gender }}</div>
                         </td>
                     </tr>
                     <tr>

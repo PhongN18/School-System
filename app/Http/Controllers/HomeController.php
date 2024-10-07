@@ -66,26 +66,11 @@ class HomeController extends Controller
                     ->orderBy('period')
                     ->get();
 
-                $days = [
-                    1 => 'Monday',
-                    2 => 'Tuesday',
-                    3 => 'Wednesday',
-                    4 => 'Thursday',
-                    5 => 'Friday'
-                ];
+                    $periods = range(1, 8);
+                    $periodsTime = ['8:00 - 8:45', '8:55 - 9:40', '9:50 - 10:35', '10:45 - 11:30', '14:00 - 14:45' , '14:55 - 15:40', '15:50 - 16:35', '16:45 - 17:30'];
+                    $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-                $periodTimes = [
-                    1 => '8:00 - 8:45',
-                    2 => '8:55 - 9:40',
-                    3 => '9:50 - 10:35',
-                    4 => '10:45 - 11:30',
-                    5 => '14:00 - 14:45',
-                    6 => '14:55 - 15:40',
-                    7 => '15:50 - 16:35',
-                    8 => '16:45 - 17:30',
-                ];
-
-                return view('dashboard.teacher', compact('teacher', 'teachingSchedule', 'days', 'periodTimes'));
+                return view('dashboard.teacher', compact('teacher', 'teachingSchedule', 'weekDays', 'periods', 'periodsTime'));
             }
         return view('home');
     }

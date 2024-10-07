@@ -18,8 +18,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::with('user')->latest()->paginate(10);
-
+        $teachers = Teacher::with('user')
+                            ->join('users', 'teachers.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('teachers.*')
+                            ->paginate(10);
         return view('backend.teachers.index', compact('teachers'));
     }
 
@@ -30,26 +33,11 @@ class TeacherController extends Controller
                     ->orderBy('day')
                     ->orderBy('period')
                     ->get();
-        $days = [
-            1 => 'Monday',
-            2 => 'Tuesday',
-            3 => 'Wednesday',
-            4 => 'Thursday',
-            5 => 'Friday'
-        ];
-
-        $periodTimes = [
-            1 => '8:00 - 8:45',
-            2 => '8:55 - 9:40',
-            3 => '9:50 - 10:35',
-            4 => '10:45 - 11:30',
-            5 => '14:00 - 14:45',
-            6 => '14:55 - 15:40',
-            7 => '15:50 - 16:35',
-            8 => '16:45 - 17:30',
-        ];
+        $periods = range(1, 8);
+        $periodsTime = ['8:00 - 8:45', '8:55 - 9:40', '9:50 - 10:35', '10:45 - 11:30', '14:00 - 14:45' , '14:55 - 15:40', '15:50 - 16:35', '16:45 - 17:30'];
+        $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         $classes = Classes::where('teacher_id', $teacher->id)->withCount('students')->get();
-        return view('backend.teachers.show', compact('teacher', 'teachingSchedule', 'days', 'periodTimes', 'classes'));
+        return view('backend.teachers.show', compact('teacher', 'teachingSchedule', 'weekDays', 'periods', 'periodsTime', 'classes'));
     }
 
     /**
@@ -57,7 +45,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        $subjects = Subject::latest()->get();
+        $subjects = Subject::orderBy('name')->get();
         return view('backend.teachers.create', compact('subjects'));
     }
 
@@ -155,16 +143,16 @@ class TeacherController extends Controller
         $user->update([
             'name'              => $request->name,
             'email'             => $request->email,
-            'profile_picture'   => $profile
-        ]);
-
-        // Update associated teacher record
-        $user->teacher()->update([
+            'profile_picture'   => $profile,
             'gender'            => $request->gender,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address,
+            'permanent_address' => $request->permanent_address
+        ]);
+
+        // Update associated teacher record
+        $user->teacher()->update([
             'subject_id'        => $request->subject_id
         ]);
 

@@ -15,7 +15,12 @@ class ParentController extends Controller
      */
     public function index()
     {
-        $parents = Parents::with(['user','children'])->withCount('children')->latest()->paginate(10);
+        $parents = Parents::with(['user', 'children'])
+                            ->join('users', 'parents.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('parents.*')
+                            ->withCount('children')
+                            ->paginate(10);
 
         return view('backend.parents.index', compact('parents'));
     }
@@ -46,24 +51,15 @@ class ParentController extends Controller
         $user = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
-            'password'  => Hash::make($request->password)
-        ]);
-
-        if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->move(public_path('images/profile'), $profile);
-        } else {
-            $profile = 'avatar.png';
-        }
-        $user->update([
-            'profile_picture' => $profile
-        ]);
-
-        $user->parent()->create([
+            'password'  => Hash::make($request->password),
             'gender'            => $request->gender,
             'phone'             => $request->phone,
             'current_address'   => $request->current_address,
             'permanent_address' => $request->permanent_address
+        ]);
+
+        $user->parent()->create([
+
         ]);
 
         $user->assignRole('Parent');
@@ -76,7 +72,9 @@ class ParentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $parent = Parents::with(['user', 'children.user'])->findOrFail($id);
+
+        return view('backend.parents.show', compact('parent'));
     }
 
     /**

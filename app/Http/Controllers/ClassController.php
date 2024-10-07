@@ -25,7 +25,11 @@ class ClassController extends Controller
      */
     public function create()
     {
-        $teachers = Teacher::latest()->get();
+        $teachers = Teacher::with('user')
+                            ->join('users', 'teachers.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('teachers.*')
+                            ->get();
 
         return view('backend.classes.create', compact('teachers'));
     }
@@ -93,7 +97,11 @@ class ClassController extends Controller
      */
     public function edit(string $id)
     {
-        $teachers = Teacher::latest()->get();
+        $teachers = Teacher::with('user')
+                            ->join('users', 'teachers.user_id', '=', 'users.id')
+                            ->orderBy('users.name')
+                            ->select('teachers.*')
+                            ->get();
         $class = Classes::findOrFail($id);
 
         return view('backend.classes.edit', compact('class','teachers'));
@@ -131,8 +139,6 @@ class ClassController extends Controller
     public function destroy(string $id)
     {
         $class = Classes::findOrFail($id);
-
-        $class->subjects()->detach();
         $class->delete();
 
         return back();

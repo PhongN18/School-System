@@ -59,7 +59,7 @@
                             <div class="mb-3">Gender:</div>
                         </td>
                         <td class="text-gray-600 font-bold">
-                            <div class="mb-3">{{ $student->user->gender }}</div>
+                            <div class="mb-3 capitalize">{{ $student->user->gender }}</div>
                         </td>
                     </tr>
                     <tr>
@@ -127,9 +127,9 @@
             <table class="min-w-full table-auto border-collapse">
                 <thead>
                     <tr>
-                        <th class="px-4 py-2 text-gray-700">Period</th>
+                        <th class="px-4 py-2 text-gray-700 w-2/12">Period</th>
                         @foreach ($weekDays as $day)
-                            <th class="px-4 py-2 text-gray-700">{{ $day }}</th>
+                            <th class="px-4 py-2 text-gray-700 w-2/12">{{ $day }}</th>
                         @endforeach
                     </tr>
                 </thead>
@@ -145,7 +145,7 @@
                         @endif
 
                         <tr>
-                            <td class="border px-4 py-2 text-center">
+                            <td class="border px-4 py-2 text-center w-2/12">
                                 {{ $period }}
                                 <p class="text-gray-600 italic text-xs">{{ $periodsTime[$period - 1] }}</p>
                             </td>
@@ -156,7 +156,7 @@
                                         return $t->day == $dbDay && $t->period == $period;
                                     });
                                 @endphp
-                                <td class="border px-4 py-2">
+                                <td class="border px-4 py-2 w-2/12">
                                     @if ($entry)
                                         <strong>{{ $entry->subject->name }}</strong><br>
                                         <small>Teacher: {{ $entry->teacher->user->name }}</small>

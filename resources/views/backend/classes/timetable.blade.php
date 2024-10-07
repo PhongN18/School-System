@@ -19,9 +19,9 @@
             <table class="min-w-full table-auto border-collapse">
                 <thead>
                     <tr>
-                        <th class="px-4 py-2">Period</th>
+                        <th class="px-4 py-2 w-2/12">Period</th>
                         @foreach ($weekDays as $day)
-                            <th class="px-4 py-2">{{ $day }}</th>
+                            <th class="px-4 py-2 w-2/12">{{ $day }}</th>
                         @endforeach
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                         @endif
 
                         <tr>
-                            <td class="border px-4 py-2 text-center">
+                            <td class="border px-4 py-2 text-center w-2/12">
                                 {{ $period }}
                                 <p class="text-gray-600 italic text-xs">{{ $periodsTime[$period - 1] }}</p>
                             </td>
@@ -48,7 +48,7 @@
                                         return $t->day == $dbDay && $t->period == $period;
                                     });
                                 @endphp
-                                <td class="border px-4 py-2">
+                                <td class="border px-4 py-2 w-2/12">
                                     @if ($entry)
                                         <strong>{{ $entry->subject->name }}</strong><br>
                                         <small>{{ $entry->teacher->user->name }}</small>

@@ -24,19 +24,25 @@
         <div class="mt-8 bg-white rounded border-b-4 border-gray-300">
             <div
                 class="flex flex-wrap items-center uppercase text-sm font-semibold bg-gray-600 text-white rounded-tl rounded-tr">
+                <div class="w-1/12 px-4 py-3">UID</div>
                 <div class="w-2/12 px-4 py-3">Name</div>
-                <div class="w-3/12 px-4 py-3">Email</div>
-                <div class="w-3/12 px-4 py-3">Subject Code</div>
+                <div class="w-1/12 px-4 py-3">TID</div>
+                <div class="w-2/12 px-4 py-3">Email</div>
+                <div class="w-2/12 px-4 py-3">Main Subject</div>
                 <div class="w-2/12 px-4 py-3">Phone</div>
                 <div class="w-2/12 px-4 py-3 text-right">Actions</div>
             </div>
             @foreach ($teachers as $teacher)
                 <div class="flex flex-wrap items-center text-gray-700 border-t-2 border-l-4 border-r-4 border-gray-300">
+                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                        {{ $teacher->user->id }}</div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $teacher->user->name }}</div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                        {{ $teacher->id }}</div>
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $teacher->user->email }}</div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $teacher->subject->name }}</div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $teacher->user->phone }}

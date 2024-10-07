@@ -24,21 +24,27 @@
         <div class="mt-8 bg-white rounded border-b-4 border-gray-300">
             <div
                 class="flex flex-wrap items-center uppercase text-sm font-semibold bg-gray-600 text-white rounded-tl rounded-tr">
+                <div class="w-1/12 px-4 py-3">UID</div>
                 <div class="w-3/12 px-4 py-3">Name</div>
-                <div class="w-3/12 px-4 py-3">Email</div>
-                <div class="w-2/12 px-4 py-3">Class</div>
-                <div class="w-2/12 px-4 py-3">Phone</div>
+                <div class="w-2/12 px-4 py-3">Email</div>
+                <div class="w-1/12 px-4 py-3">SID</div>
+                <div class="w-1/12 px-4 py-3">Class</div>
+                <div class="w-2/12 px-4 py-3 text-center">Phone</div>
                 <div class="w-2/12 px-4 py-3 text-right">Action</div>
             </div>
             @foreach ($students as $student)
                 <div class="flex flex-wrap items-center text-gray-700 border-t-2 border-l-4 border-r-4 border-gray-300">
+                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                        {{ $student->user->id }}</div>
                     <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $student->user->name }}</div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $student->user->email }}</div>
-                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                        {{ $student->id }}</div>
+                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         {{ $student->class->class_name ?? '' }}</div>
-                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight text-center">
                         {{ $student->user->phone }}</div>
                     <div class="w-2/12 flex items-center justify-end px-3">
                         <a href="{{ route('student.show', $student->id) }}"
