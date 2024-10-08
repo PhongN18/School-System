@@ -18,15 +18,22 @@ class DatabaseSeeder extends Seeder
         // Gọi Seeder tạo
         $this->call(RolesAndPermissionsSeeder::class);
         $faker = Faker::create();
+        $phoneNumbers = collect();
 
         // Tạo 5 người dùng admin
         for ($i = 1; $i <= 5; $i++) {
+            do {
+                $phone = $faker->numerify('0#########');
+            } while ($phoneNumbers->contains($phone));
+
+            $phoneNumbers->push($phone);
+
             $admin = User::create([
                 'name'              => $faker->name,
                 'email'             => 'admin' . $i . '@mail.com',
                 'password'          => bcrypt('password'),
                 'gender'            => $faker->randomElement(['Male', 'Female', 'Other']),
-                'phone'             => $faker->unique()->phoneNumber,
+                'phone'             => $phone,
                 'dateofbirth'       => $faker->dateTimeBetween('-60 years', '-40 years')->format('Y-m-d'),
                 'current_address'   => $faker->address,
                 'permanent_address' => $faker->address,
@@ -38,13 +45,20 @@ class DatabaseSeeder extends Seeder
 
         // Tạo 50 người dùng Teacher
         for ($i = 1; $i <= 50; $i++) {
+
+            do {
+                $phone = $faker->numerify('0#########');
+            } while ($phoneNumbers->contains($phone));
+
+            $phoneNumbers->push($phone);
+
             $teacher = User::create([
                 'name'              => $faker->name,
                 'email'             => 'teacher' . $i . '@mail.com',
                 'password'          => bcrypt('password'),
                 'profile_picture'   => 'teacher-' . ($i % 25 + 1) . '.jpg',
                 'gender'            => $faker->randomElement(['Male', 'Female', 'Other']),
-                'phone'             => $faker->unique()->phoneNumber,
+                'phone'             => $phone,
                 'dateofbirth'       => $faker->dateTimeBetween('-60 years', '-25 years')->format('Y-m-d'),
                 'current_address'   => $faker->address,
                 'permanent_address' => $faker->address,
@@ -56,12 +70,19 @@ class DatabaseSeeder extends Seeder
 
         // Tạo 200 người dùng Parent
         for ($i = 1; $i <= 200; $i++) {
+
+            do {
+                $phone = $faker->numerify('0#########');
+            } while ($phoneNumbers->contains($phone));
+
+            $phoneNumbers->push($phone);
+
             $parent = User::create([
                 'name'              => $faker->name,
                 'email'             => 'parent' . $i . '@mail.com',
                 'password'          => bcrypt('password'),
                 'gender'            => $faker->randomElement(['Male', 'Female', 'Other']),
-                'phone'             => $faker->unique()->phoneNumber,
+                'phone'             => $phone,
                 'dateofbirth'       => $faker->dateTimeBetween('-60 years', '-40 years')->format('Y-m-d'),
                 'current_address'   => $faker->address,
                 'permanent_address' => $faker->address,
@@ -72,13 +93,20 @@ class DatabaseSeeder extends Seeder
 
         // Tạo 450 người dùng Student
         for ($i = 1; $i <= 450; $i++) {
+
+            do {
+                $phone = $faker->numerify('0#########');
+            } while ($phoneNumbers->contains($phone));
+
+            $phoneNumbers->push($phone);
+
             $student = User::create([
                 'name'              => $faker->name,
                 'email'             => 'student' . $i . '@mail.com',
                 'password'          => bcrypt('password'),
                 'profile_picture'   => 'student-' . ($i % 50 + 1) . '.jpg',
                 'gender'            => $faker->randomElement(['Male', 'Female', 'Other']),
-                'phone'             => $faker->unique()->phoneNumber,
+                'phone'             => $phone,
                 'dateofbirth'       => $faker->dateTimeBetween('-18 years', '-16 years')->format('Y-m-d'),
                 'current_address'   => $faker->address,
                 'permanent_address' => $faker->address,
@@ -176,6 +204,7 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+
         $end = Carbon::now();
 
         // Calculate duration and log it

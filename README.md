@@ -44,38 +44,58 @@ Follow these instructions to get a copy of the project up and running on your lo
     or copy manually
 
     Open the .env file and update the following database and application settings as needed:
-   ```
-    APP_NAME=School-System
-    APP_URL=http://localhost
 
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=your_database_name
-    DB_USERNAME=your_database_user
-    DB_PASSWORD=your_database_password
+    ```
+     APP_NAME=School-System
+     APP_URL=http://localhost
+
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=your_database_name
+     DB_USERNAME=your_database_user
+     DB_PASSWORD=your_database_password
     ```
 
-5. **Generate an application key:**
+4. **Generate an application key:**
 
     ```bash
     php artisan key:generate
 
     ```
 
-6. **Set up the database:**
+5. **Set up the database:**
 
     ```bash
     php artisan migrate
     php artisan db:seed
     ```
-    ***Note***: The database seeding process may take approximately 4 minutes to complete.
-   Please be patient and avoid interrupting the process to ensure all data is properly seeded.
 
-8. **Serve the application locally:**
+    **_Note_**: The database seeding process may take approximately 4 minutes to complete.
+    Please be patient and avoid interrupting the process to ensure all data is properly seeded.
+
+6. **Serve the application locally:**
 
     ```bash
     php artisan serve
 
     Open your browser and go to http://localhost:8000.
     ```
+
+**Login Information**
+The project is seeded with default accounts for each user role. Use the following credentials to log in with different types of users:
+
+**_Admin Accounts_**
+_Email_: admin1@mail.com to admin5@mail.com
+_Password_: password
+**_Teacher Accounts_**
+_Email_: teacher1@mail.com to teacher50@mail.com
+_Password_: password
+**_Parent Accounts_**
+_Email_: parent1@mail.com to parent200@mail.com
+_Password_: password
+**_Student Accounts_**
+_Email_: student1@mail.com to student450@mail.com
+_Password_: password
+
+Each of these accounts uses the password password by default.
